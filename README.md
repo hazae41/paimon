@@ -6,7 +6,7 @@ Rust implementation of RSA encryption and signatures.
 ### Install (Node)
 
 ```bash
-npm i paimon
+npm i @hazae41/paimon
 ```
 
 ### Usage
