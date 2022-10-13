@@ -1,0 +1,25 @@
+[package]
+name = "paimon"
+version = "1.0.0"
+authors = ["hazae41 <hazae41@proton.me>"]
+edition = "2021"
+
+description = "WebAssembly port of RustCrypto's RSA, a Rust implementation of RSA encryption and signatures."
+repository = "https://github.com/hazae41/paimon-wasm"
+license = "Unlicense"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+debug = false
+opt-level = 3
+
+[dependencies]
+wasm-bindgen = { version = "0.2.83", default-features = false }
+rsa = { version = "0.7.0", default-features = false, features = ["getrandom"] }
+const-oid = { version = "0.9.0", default-features = false }
+digest = { version = "0.10.5", default-features = false }
+getrandom = { version = "0.2.7", default-features = false, features = ["js"] }
+rand = { version = "0.8", default-features = false, features = ["getrandom"] }
