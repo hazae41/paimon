@@ -1,5 +1,4 @@
-import * as Paimon from "@hazae41/paimon";
-import { PaddingScheme, RsaPrivateKey } from "@hazae41/paimon";
+import { PaddingScheme, Paimon, RsaPrivateKey } from "@hazae41/paimon";
 
 Paimon.initSyncBundledOnce()
 

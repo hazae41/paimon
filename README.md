@@ -3,8 +3,6 @@
 WebAssembly port of RustCrypto's [RSA](https://github.com/RustCrypto/RSA), a
 Rust implementation of RSA encryption and signatures.
 
-### Install (Node)
-
 ```bash
 npm i @hazae41/paimon
 ```
@@ -12,8 +10,7 @@ npm i @hazae41/paimon
 ### Usage
 
 ```ts
-import * as Paimon from "@hazae41/paimon";
-import { PaddingScheme, RsaPrivateKey } from "@hazae41/paimon";
+import { Paimon, PaddingScheme, RsaPrivateKey } from "@hazae41/paimon";
 
 // Wait for WASM to load
 Paimon.initSyncBundledOnce()

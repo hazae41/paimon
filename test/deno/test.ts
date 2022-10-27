@@ -1,7 +1,6 @@
-import * as Paimon from "../../deno/mod.ts";
-import { PaddingScheme, RsaPrivateKey } from "../../deno/mod.ts";
+import { PaddingScheme, Paimon, RsaPrivateKey } from "../../deno/mod.ts";
 
-Paimon.initSyncBundledOnce()
+await Paimon.initBundledOnce()
 
 const keypair = new RsaPrivateKey(1024)
 console.log("keypair.to_pkcs1_der", keypair.to_pkcs1_der())

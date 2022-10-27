@@ -7,6 +7,8 @@ var paimon = require('../wasm/pkg/paimon.cjs');
 
 
 
+exports.Paimon = index;
+exports.initBundledOnce = index.initBundledOnce;
 exports.initSyncBundledOnce = index.initSyncBundledOnce;
 exports.PaddingScheme = paimon.PaddingScheme;
 exports.RsaPrivateKey = paimon.RsaPrivateKey;
