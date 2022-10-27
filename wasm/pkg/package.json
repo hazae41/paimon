@@ -1,0 +1,22 @@
+{
+  "name": "paimon",
+  "collaborators": [
+    "hazae41 <hazae41@proton.me>"
+  ],
+  "description": "WebAssembly port of RustCrypto's RSA, a Rust implementation of RSA encryption and signatures.",
+  "version": "1.0.0",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hazae41/paimon-wasm"
+  },
+  "files": [
+    "paimon_bg.wasm",
+    "paimon.js",
+    "paimon.d.ts",
+    "LICENSE.md"
+  ],
+  "module": "paimon.js",
+  "types": "paimon.d.ts",
+  "sideEffects": false
+}
