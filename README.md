@@ -7,6 +7,8 @@ Rust implementation of RSA encryption and signatures.
 npm i @hazae41/paimon
 ```
 
+[**Next.js CodeSandbox 🪣**](https://codesandbox.io/p/sandbox/6t599p) • [**Deno CodeSandbox 🪣**](https://codesandbox.io/p/sandbox/drxshp) • [**Node CodeSandbox 🪣**](https://codesandbox.io/p/sandbox/5h73kh)
+
 ### Usage
 
 ```ts
