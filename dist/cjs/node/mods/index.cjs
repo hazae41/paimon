@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var tslib_es6 = require('../../node_modules/tslib/tslib.es6.cjs');
+var tslib = require('tslib');
 var paimon = require('../../wasm/pkg/paimon.cjs');
 var paimon_wasm = require('../../wasm/pkg/paimon.wasm.cjs');
 
@@ -11,8 +11,8 @@ function initSyncBundledOnce() {
     return output !== null && output !== void 0 ? output : (output = paimon.initSync(Buffer.from(paimon_wasm.wasm, "base64")));
 }
 function initBundledOnce() {
-    return tslib_es6.__awaiter(this, void 0, void 0, function () {
-        return tslib_es6.__generator(this, function (_a) {
+    return tslib.__awaiter(this, void 0, void 0, function () {
+        return tslib.__generator(this, function (_a) {
             return [2 /*return*/, output !== null && output !== void 0 ? output : (output = paimon["default"](Buffer.from(paimon_wasm.wasm, "base64")))];
         });
     });
