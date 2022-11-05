@@ -9,9 +9,6 @@ use rand::rngs::OsRng;
 use crate::rsa::padding_scheme::PaddingScheme;
 use crate::rsa::public_key::RsaPublicKey;
 
-use rsa::pkcs1::{DecodeRsaPrivateKey, EncodeRsaPrivateKey};
-use rsa::pkcs8::{DecodePrivateKey, EncodePrivateKey};
-
 #[wasm_bindgen]
 pub struct RsaPrivateKey {
     pub(crate) inner: Box<rsa::RsaPrivateKey>,
@@ -30,6 +27,8 @@ impl RsaPrivateKey {
 
     #[wasm_bindgen]
     pub fn from_pkcs1_der(input: &[u8]) -> Result<RsaPrivateKey, JsError> {
+        use rsa::pkcs1::DecodeRsaPrivateKey;
+
         let rprivate = rsa::RsaPrivateKey::from_pkcs1_der(input);
         let private = rprivate.map_err(|_| JsError::new("RsaPrivateKey::from_pkcs1_der"))?;
         let inner = Box::new(private);
@@ -39,6 +38,8 @@ impl RsaPrivateKey {
 
     #[wasm_bindgen]
     pub fn from_pkcs8_der(input: &[u8]) -> Result<RsaPrivateKey, JsError> {
+        use rsa::pkcs8::DecodePrivateKey;
+
         let rprivate = rsa::RsaPrivateKey::from_pkcs8_der(input);
         let private = rprivate.map_err(|_| JsError::new("RsaPrivateKey::from_pkcs8_der"))?;
         let inner = Box::new(private);
@@ -48,6 +49,8 @@ impl RsaPrivateKey {
 
     #[wasm_bindgen]
     pub fn to_pkcs1_der(&self) -> Result<Vec<u8>, JsError> {
+        use rsa::pkcs1::EncodeRsaPrivateKey;
+
         let rdocument = self.inner.to_pkcs1_der();
         let document = rdocument.map_err(|_| JsError::new("RsaPrivateKey::to_pkcs1_der"))?;
 
@@ -56,6 +59,8 @@ impl RsaPrivateKey {
 
     #[wasm_bindgen]
     pub fn to_pkcs8_der(&self) -> Result<Vec<u8>, JsError> {
+        use rsa::pkcs8::EncodePrivateKey;
+
         let rdocument = self.inner.to_pkcs8_der();
         let document = rdocument.map_err(|_| JsError::new("RsaPrivateKey::to_pkcs8_der"))?;
 
