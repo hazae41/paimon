@@ -1,4 +1,4 @@
-import { PaddingScheme, Paimon, RsaPrivateKey } from "../../deno/mod.ts";
+import { PaddingScheme, Paimon, RsaPrivateKey } from "../../src/deno/mod.ts";
 
 await Paimon.initBundledOnce()
 
