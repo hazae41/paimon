@@ -14,7 +14,7 @@ export function rsapublickey_from_pkcs1_der(a: number, b: number, c: number): vo
 export function rsapublickey_from_public_key_der(a: number, b: number, c: number): void;
 export function rsapublickey_to_pkcs1_der(a: number, b: number): void;
 export function rsapublickey_to_public_key_der(a: number, b: number): void;
-export function rsapublickey_verify(a: number, b: number, c: number, d: number, e: number, f: number): number;
+export function rsapublickey_verify(a: number, b: number, c: number, d: number, e: number, f: number, g: number): void;
 export function __wbg_paddingscheme_free(a: number): void;
 export function paddingscheme_new_pkcs1v15_sign_raw(): number;
 export function paddingscheme_new_pkcs1v15_sign_digest(a: number, b: number, c: number): number;

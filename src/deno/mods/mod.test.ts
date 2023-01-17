@@ -50,5 +50,6 @@ test("RSA", async () => {
   const padding = PaddingScheme.new_pkcs1v15_sign_raw()
   const signature = keypair.sign(padding, hello)
 
-  assert(identity.verify(padding, hello, signature), `signature should be verified`)
+  const padding2 = PaddingScheme.new_pkcs1v15_sign_raw()
+  assert(identity.verify(padding2, hello, signature), `signature should be verified`)
 })

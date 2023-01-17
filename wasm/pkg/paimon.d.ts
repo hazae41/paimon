@@ -100,7 +100,7 @@ export interface InitOutput {
   readonly rsapublickey_from_public_key_der: (a: number, b: number, c: number) => void;
   readonly rsapublickey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsapublickey_to_public_key_der: (a: number, b: number) => void;
-  readonly rsapublickey_verify: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
+  readonly rsapublickey_verify: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
   readonly __wbg_paddingscheme_free: (a: number) => void;
   readonly paddingscheme_new_pkcs1v15_sign_raw: () => number;
   readonly paddingscheme_new_pkcs1v15_sign_digest: (a: number, b: number, c: number) => number;
@@ -129,4 +129,4 @@ export function initSync(module: SyncInitInput): InitOutput;
 *
 * @returns {Promise<InitOutput>}
 */
-export default function init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
+export function init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;

@@ -14,9 +14,9 @@ const bytes = new TextEncoder().encode("hello world")
 console.log("bytes", bytes)
 
 const padding = PaddingScheme.new_pkcs1v15_sign_raw()
-
 const proof = keypair.sign(padding, bytes)
 console.log("proof", proof)
 
-const verified = identity.verify(padding, bytes, proof)
+const padding2 = PaddingScheme.new_pkcs1v15_sign_raw()
+const verified = identity.verify(padding2, bytes, proof)
 console.log("verified", verified)

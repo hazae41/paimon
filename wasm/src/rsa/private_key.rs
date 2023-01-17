@@ -76,9 +76,14 @@ impl RsaPrivateKey {
     }
 
     #[wasm_bindgen]
-    pub fn sign(&self, padding: &PaddingScheme, input: &[u8]) -> Result<Vec<u8>, JsValue> {
-        let routput = self.inner.sign(padding.into(), input);
-        let output = routput.map_err(|_| JsValue::from("Error"))?;
+    pub fn sign(&self, padding: &mut PaddingScheme, input: &[u8]) -> Result<Vec<u8>, JsError> {
+        let padding2 = padding
+            .inner
+            .take()
+            .ok_or_else(|| JsError::new("A new PaddingScheme is required"))?;
+
+        let routput = self.inner.sign(padding2, input);
+        let output = routput.map_err(|_| JsError::new("RsaPrivateKey::sign"))?;
 
         Ok(output)
     }

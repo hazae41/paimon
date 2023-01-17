@@ -1,4 +1,5 @@
 import { assert, test } from "@hazae41/phobos";
+import crypto from "node:crypto";
 import { initBundledOnce, PaddingScheme, RsaPrivateKey, RsaPublicKey } from "./index.js";
 
 function equals(a: Uint8Array, b: Uint8Array) {
@@ -33,6 +34,8 @@ function assertIdentityToPublicKey(identity: RsaPublicKey) {
 }
 
 test("RSA", async () => {
+  globalThis.crypto = crypto as Crypto
+
   await initBundledOnce()
 
   const hello = new TextEncoder().encode("hello world")
@@ -49,5 +52,6 @@ test("RSA", async () => {
   const padding = PaddingScheme.new_pkcs1v15_sign_raw()
   const signature = keypair.sign(padding, hello)
 
-  assert(identity.verify(padding, hello, signature), `signature should be verified`)
+  const padding2 = PaddingScheme.new_pkcs1v15_sign_raw()
+  assert(identity.verify(padding2, hello, signature), `signature should be verified`)
 })

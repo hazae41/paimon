@@ -1,15 +1,17 @@
-import { readFile, rm, writeFile } from "fs/promises";
+import { readFileSync, rmSync, writeFileSync } from "fs";
 
-const wasm = await readFile("./wasm/pkg/paimon_bg.wasm");
+const wasm = readFileSync("./wasm/pkg/paimon_bg.wasm");
+writeFileSync(`./wasm/pkg/paimon.wasm.js`, `export const wasm = "${wasm.toString("base64")}";`);
+writeFileSync(`./wasm/pkg/paimon.wasm.d.ts`, `export const wasm: string;`);
 
-await writeFile(
-  `./wasm/pkg/paimon.wasm.js`,
-  `export const wasm = "${wasm.toString("base64")}";`
-);
+const script = readFileSync(`./wasm/pkg/paimon.js`, "utf8")
+  .replace("export { initSync }", "export { init, initSync }")
+  .replace("input = new URL('paimon_bg.wasm', import.meta.url);", "throw new Error();")
 
-await writeFile(
-  `./wasm/pkg/paimon.wasm.d.ts`,
-  `export const wasm: string;`
-);
+const typing = readFileSync(`./wasm/pkg/paimon.d.ts`, "utf8")
+  .replace("export default function init", "export function init")
 
-await rm(`./wasm/pkg/.gitignore`, { force: true });
+writeFileSync(`./wasm/pkg/paimon.js`, script)
+writeFileSync(`./wasm/pkg/paimon.d.ts`, typing)
+
+rmSync(`./wasm/pkg/.gitignore`, { force: true });
