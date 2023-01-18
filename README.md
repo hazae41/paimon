@@ -12,7 +12,7 @@ npm i @hazae41/paimon
 ### Usage
 
 ```ts
-import { Paimon, PaddingScheme, RsaPrivateKey } from "@hazae41/paimon";
+import { Paimon, RsaPrivateKey } from "@hazae41/paimon";
 
 // Wait for WASM to load
 Paimon.initSyncBundledOnce()
@@ -23,11 +23,10 @@ const identity = keypair.to_public_key()
 
 // Define bytes to sign and padding to use
 const bytes = new TextEncoder().encode("hello world")
-const padding = PaddingScheme.new_pkcs1v15_sign_raw()
 
 // Sign and verify
-const proof = keypair.sign(padding, bytes)
-const verified = identity.verify(padding, bytes, proof)
+const proof = keypair.sign_pkcs1v15_raw(bytes)
+const verified = identity.verify_pkcs1v15_raw(bytes, proof)
 ```
 
 ### Unreproducible building
