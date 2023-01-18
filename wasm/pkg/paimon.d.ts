@@ -2,21 +2,6 @@
 /* eslint-disable */
 /**
 */
-export class PaddingScheme {
-  free(): void;
-/**
-* @returns {PaddingScheme}
-*/
-  static new_pkcs1v15_sign_raw(): PaddingScheme;
-/**
-* @param {number} length
-* @param {Uint8Array} prefix
-* @returns {PaddingScheme}
-*/
-  static new_pkcs1v15_sign_digest(length: number, prefix: Uint8Array): PaddingScheme;
-}
-/**
-*/
 export class RsaPrivateKey {
   free(): void;
 /**
@@ -46,11 +31,10 @@ export class RsaPrivateKey {
 */
   to_public_key(): RsaPublicKey;
 /**
-* @param {PaddingScheme} padding
 * @param {Uint8Array} input
 * @returns {Uint8Array}
 */
-  sign(padding: PaddingScheme, input: Uint8Array): Uint8Array;
+  sign_pkcs1v15_raw(input: Uint8Array): Uint8Array;
 }
 /**
 */
@@ -75,12 +59,11 @@ export class RsaPublicKey {
 */
   to_public_key_der(): Uint8Array;
 /**
-* @param {PaddingScheme} padding
 * @param {Uint8Array} input
 * @param {Uint8Array} signature
 * @returns {boolean}
 */
-  verify(padding: PaddingScheme, input: Uint8Array, signature: Uint8Array): boolean;
+  verify_pkcs1v15_raw(input: Uint8Array, signature: Uint8Array): boolean;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -94,20 +77,17 @@ export interface InitOutput {
   readonly rsaprivatekey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_pkcs8_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_public_key: (a: number) => number;
-  readonly rsaprivatekey_sign: (a: number, b: number, c: number, d: number, e: number) => void;
+  readonly rsaprivatekey_sign_pkcs1v15_raw: (a: number, b: number, c: number, d: number) => void;
   readonly __wbg_rsapublickey_free: (a: number) => void;
   readonly rsapublickey_from_pkcs1_der: (a: number, b: number, c: number) => void;
   readonly rsapublickey_from_public_key_der: (a: number, b: number, c: number) => void;
   readonly rsapublickey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsapublickey_to_public_key_der: (a: number, b: number) => void;
-  readonly rsapublickey_verify: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => void;
-  readonly __wbg_paddingscheme_free: (a: number) => void;
-  readonly paddingscheme_new_pkcs1v15_sign_raw: () => number;
-  readonly paddingscheme_new_pkcs1v15_sign_digest: (a: number, b: number, c: number) => number;
+  readonly rsapublickey_verify_pkcs1v15_raw: (a: number, b: number, c: number, d: number, e: number) => number;
+  readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_free: (a: number, b: number) => void;
-  readonly __wbindgen_exn_store: (a: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

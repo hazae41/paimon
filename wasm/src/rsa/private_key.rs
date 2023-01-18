@@ -4,9 +4,6 @@ use alloc::{boxed::Box, vec::Vec};
 
 use wasm_bindgen::prelude::*;
 
-use rand::rngs::OsRng;
-
-use crate::rsa::padding_scheme::PaddingScheme;
 use crate::rsa::public_key::RsaPublicKey;
 
 #[wasm_bindgen]
@@ -18,7 +15,7 @@ pub struct RsaPrivateKey {
 impl RsaPrivateKey {
     #[wasm_bindgen(constructor)]
     pub fn new(length: usize) -> Result<RsaPrivateKey, JsError> {
-        let rprivate = rsa::RsaPrivateKey::new(&mut OsRng {}, length);
+        let rprivate = rsa::RsaPrivateKey::new(&mut rsa::rand_core::OsRng {}, length);
         let private = rprivate.map_err(|_| JsError::new("RsaPrivateKey::new"))?;
         let inner = Box::new(private);
 
@@ -76,13 +73,10 @@ impl RsaPrivateKey {
     }
 
     #[wasm_bindgen]
-    pub fn sign(&self, padding: &mut PaddingScheme, input: &[u8]) -> Result<Vec<u8>, JsError> {
-        let padding2 = padding
-            .inner
-            .take()
-            .ok_or_else(|| JsError::new("A new PaddingScheme is required"))?;
+    pub fn sign_pkcs1v15_raw(&self, input: &[u8]) -> Result<Vec<u8>, JsError> {
+        use rsa::Pkcs1v15Sign;
 
-        let routput = self.inner.sign(padding2, input);
+        let routput = self.inner.sign(Pkcs1v15Sign::new_raw(), input);
         let output = routput.map_err(|_| JsError::new("RsaPrivateKey::sign"))?;
 
         Ok(output)

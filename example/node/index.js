@@ -1,4 +1,4 @@
-import { PaddingScheme, Paimon, RsaPrivateKey } from "@hazae41/paimon";
+import { Paimon, RsaPrivateKey } from "@hazae41/paimon";
 import crypto from "node:crypto";
 
 globalThis.crypto = crypto
@@ -16,10 +16,8 @@ console.log("identity.to_public_key_der", identity.to_public_key_der())
 const bytes = new TextEncoder().encode("hello world")
 console.log("bytes", bytes)
 
-const padding = PaddingScheme.new_pkcs1v15_sign_raw()
-const proof = keypair.sign(padding, bytes)
+const proof = keypair.sign_pkcs1v15_raw(bytes)
 console.log("proof", proof)
 
-const padding2 = PaddingScheme.new_pkcs1v15_sign_raw()
-const verified = identity.verify(padding2, bytes, proof)
+const verified = identity.verify_pkcs1v15_raw(bytes, proof)
 console.log("verified", verified)

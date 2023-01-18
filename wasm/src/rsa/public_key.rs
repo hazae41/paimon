@@ -4,8 +4,6 @@ use alloc::{boxed::Box, vec::Vec};
 
 use wasm_bindgen::prelude::*;
 
-use crate::rsa::padding_scheme::PaddingScheme;
-
 #[wasm_bindgen]
 pub struct RsaPublicKey {
     pub(crate) inner: Box<rsa::RsaPublicKey>,
@@ -56,19 +54,12 @@ impl RsaPublicKey {
     }
 
     #[wasm_bindgen]
-    pub fn verify(
-        &self,
-        padding: &mut PaddingScheme,
-        input: &[u8],
-        signature: &[u8],
-    ) -> Result<bool, JsError> {
+    pub fn verify_pkcs1v15_raw(&self, input: &[u8], signature: &[u8]) -> bool {
+        use rsa::Pkcs1v15Sign;
         use rsa::PublicKey;
 
-        let padding2 = padding
-            .inner
-            .take()
-            .ok_or_else(|| JsError::new("A new PaddingScheme is required"))?;
-
-        Ok(self.inner.verify(padding2, input, signature).is_ok())
+        self.inner
+            .verify(Pkcs1v15Sign::new_raw(), input, signature)
+            .is_ok()
     }
 }
