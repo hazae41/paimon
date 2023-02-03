@@ -1,4 +1,9 @@
-# RSA for WebAssembly
+<div>
+  <img align="right" width="128" src="https://user-images.githubusercontent.com/4405263/216624328-4827e1fd-1d1c-406e-9fb1-11b2612ac3d6.png"/>
+  <p></p>
+</div>
+
+# Paimon
 
 WebAssembly port of RustCrypto's [RSA](https://github.com/RustCrypto/RSA), a
 Rust implementation of RSA encryption and signatures.
