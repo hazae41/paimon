@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@hazae41/paimon",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "WebAssembly port of RustCrypto's RSA, a Rust implementation of RSA encryption and signatures.",
   "homepage": "https://github.com/hazae41/paimon",
   "repository": "github:hazae41/paimon",
@@ -17,7 +17,7 @@
     "./dist/types"
   ],
   "scripts": {
-    "build:wasm": "cd wasm && rimraf pkg && wasm-pack build --target web --release && node patch.js",
+    "build:wasm": "cd wasm && rimraf pkg && wasm-pack build --target web --release && cd .. && node patch.js",
     "build:dist": "rimraf dist && rollup -c",
     "build": "npm run build:wasm && npm run build:dist",
     "test:node": "node ./dist/test/src/node/index.test.mjs",
