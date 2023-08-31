@@ -5,8 +5,7 @@
 
 # Paimon
 
-WebAssembly port of RustCrypto's [RSA](https://github.com/RustCrypto/RSA), a
-Rust implementation of RSA encryption and signatures.
+WebAssembly port of RSA encryption and signatures
 
 ```bash
 npm i @hazae41/paimon
@@ -14,13 +13,15 @@ npm i @hazae41/paimon
 
 [**Node Package 📦**](https://www.npmjs.com/package/@hazae41/paimon) • [**Deno Module 🦖**](https://deno.land/x/paimon) • [**Next.js CodeSandbox 🪣**](https://codesandbox.io/p/github/hazae41/paimon-example-next)
 
-### Usage
+## Algorithms
+
+## Usage
 
 ```ts
 import { Paimon, RsaPrivateKey } from "@hazae41/paimon";
 
 // Wait for WASM to load
-Paimon.initSyncBundledOnce()
+await Paimon.initBundledOnce()
 
 // Generate an identity
 const keypair = new RsaPrivateKey(1024)
@@ -30,9 +31,11 @@ const identity = keypair.to_public_key()
 const bytes = new TextEncoder().encode("hello world")
 
 // Sign and verify
-const proof = keypair.sign_pkcs1v15_raw(bytes)
+const proof = keypair.sign_pkcs1v15_raw(bytes).bytes.slice()
 const verified = identity.verify_pkcs1v15_raw(bytes, proof)
 ```
+
+## Building
 
 ### Unreproducible building
 

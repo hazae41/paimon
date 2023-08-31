@@ -4,7 +4,7 @@ version = "1.0.0"
 authors = ["hazae41 <hazae41@proton.me>"]
 edition = "2021"
 
-description = "WebAssembly port of RustCrypto's RSA, a Rust implementation of RSA encryption and signatures."
+description = "WebAssembly port of RSA encryption and signatures"
 repository = "https://github.com/hazae41/paimon-wasm"
 license = "Unlicense"
 
@@ -17,8 +17,6 @@ debug = false
 opt-level = "z"
 
 [dependencies]
-wasm-bindgen = { version = "0.2.83", default-features = false }
-rsa = { version = "0.8.0", default-features = false, features = ["getrandom"] }
-const-oid = { version = "0.9.1", default-features = false }
-digest = { version = "0.10.6", default-features = false }
-getrandom = { version = "0.2.8", default-features = false, features = ["js"] }
+wasm-bindgen = { version = "0.2.87", default-features = false }
+rsa = { version = "0.8.2", default-features = false, features = ["getrandom"] }
+getrandom = { version = "0.2.10", default-features = false, features = ["js"] }

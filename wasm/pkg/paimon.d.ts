@@ -19,22 +19,22 @@ export class RsaPrivateKey {
 */
   static from_pkcs8_der(input: Uint8Array): RsaPrivateKey;
 /**
-* @returns {Uint8Array}
+* @returns {Slice}
 */
-  to_pkcs1_der(): Uint8Array;
+  to_pkcs1_der(): Slice;
 /**
-* @returns {Uint8Array}
+* @returns {Slice}
 */
-  to_pkcs8_der(): Uint8Array;
+  to_pkcs8_der(): Slice;
 /**
 * @returns {RsaPublicKey}
 */
   to_public_key(): RsaPublicKey;
 /**
 * @param {Uint8Array} input
-* @returns {Uint8Array}
+* @returns {Slice}
 */
-  sign_pkcs1v15_raw(input: Uint8Array): Uint8Array;
+  sign_pkcs1v15_raw(input: Uint8Array): Slice;
 }
 /**
 */
@@ -51,13 +51,13 @@ export class RsaPublicKey {
 */
   static from_public_key_der(input: Uint8Array): RsaPublicKey;
 /**
-* @returns {Uint8Array}
+* @returns {Slice}
 */
-  to_pkcs1_der(): Uint8Array;
+  to_pkcs1_der(): Slice;
 /**
-* @returns {Uint8Array}
+* @returns {Slice}
 */
-  to_public_key_der(): Uint8Array;
+  to_public_key_der(): Slice;
 /**
 * @param {Uint8Array} input
 * @param {Uint8Array} signature
@@ -84,10 +84,10 @@ export interface InitOutput {
   readonly rsapublickey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsapublickey_to_public_key_der: (a: number, b: number) => void;
   readonly rsapublickey_verify_pkcs1v15_raw: (a: number, b: number, c: number, d: number, e: number) => number;
-  readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_malloc: (a: number) => number;
-  readonly __wbindgen_free: (a: number, b: number) => void;
+  readonly __wbindgen_malloc: (a: number, b: number) => number;
+  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_exn_store: (a: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
@@ -109,4 +109,14 @@ export function initSync(module: SyncInitInput): InitOutput;
 *
 * @returns {Promise<InitOutput>}
 */
-export function init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
+export function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
+
+export class Slice {
+
+  constructor(ptr: number, len: number);
+
+  get bytes(): Uint8Array
+
+  free(): void
+
+}

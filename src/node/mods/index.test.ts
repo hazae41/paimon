@@ -1,6 +1,5 @@
 import { assert, test } from "@hazae41/phobos";
-import crypto from "node:crypto";
-import { initBundledOnce, RsaPrivateKey, RsaPublicKey } from "./index.js";
+import { RsaPrivateKey, RsaPublicKey, initBundledOnce } from "./index.js";
 
 function equals(a: Uint8Array, b: Uint8Array) {
   const ba = Buffer.from(a.buffer)
@@ -10,32 +9,30 @@ function equals(a: Uint8Array, b: Uint8Array) {
 }
 
 function assertKeypairToPkcs1(keypair: RsaPrivateKey) {
-  const der = keypair.to_pkcs1_der()
-  const der2 = RsaPrivateKey.from_pkcs1_der(der).to_pkcs1_der()
+  const der = keypair.to_pkcs1_der().bytes.slice()
+  const der2 = RsaPrivateKey.from_pkcs1_der(der).to_pkcs1_der().bytes.slice()
   assert(equals(der, der2), `keypair.to_pkcs1_der serialization`)
 }
 
 function assertKeypairToPkcs8(keypair: RsaPrivateKey) {
-  const der = keypair.to_pkcs8_der()
-  const der2 = RsaPrivateKey.from_pkcs8_der(der).to_pkcs8_der()
+  const der = keypair.to_pkcs8_der().bytes.slice()
+  const der2 = RsaPrivateKey.from_pkcs8_der(der).to_pkcs8_der().bytes.slice()
   assert(equals(der, der2), `keypair.to_pkcs8_der serialization`)
 }
 
 function assertIdentityToPkcs1(identity: RsaPublicKey) {
-  const der = identity.to_pkcs1_der()
-  const der2 = RsaPublicKey.from_pkcs1_der(der).to_pkcs1_der()
+  const der = identity.to_pkcs1_der().bytes.slice()
+  const der2 = RsaPublicKey.from_pkcs1_der(der).to_pkcs1_der().bytes.slice()
   assert(equals(der, der2), `identity.to_pkcs1_der serialization`)
 }
 
 function assertIdentityToPublicKey(identity: RsaPublicKey) {
-  const der = identity.to_public_key_der()
-  const der2 = RsaPublicKey.from_public_key_der(der).to_public_key_der()
+  const der = identity.to_public_key_der().bytes.slice()
+  const der2 = RsaPublicKey.from_public_key_der(der).to_public_key_der().bytes.slice()
   assert(equals(der, der2), `identity.to_public_key_der serialization`)
 }
 
 test("RSA", async () => {
-  globalThis.crypto = crypto as Crypto
-
   await initBundledOnce()
 
   const hello = new TextEncoder().encode("hello world")
@@ -49,7 +46,7 @@ test("RSA", async () => {
   assertIdentityToPkcs1(identity)
   assertIdentityToPublicKey(identity)
 
-  const signature = keypair.sign_pkcs1v15_raw(hello)
+  const signature = keypair.sign_pkcs1v15_raw(hello).bytes.slice()
 
   assert(identity.verify_pkcs1v15_raw(hello, signature), `signature should be verified`)
 })

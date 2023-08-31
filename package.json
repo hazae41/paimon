@@ -2,7 +2,7 @@
   "type": "module",
   "name": "@hazae41/paimon",
   "version": "1.0.15",
-  "description": "WebAssembly port of RustCrypto's RSA, a Rust implementation of RSA encryption and signatures.",
+  "description": "WebAssembly port of RSA encryption and signatures",
   "homepage": "https://github.com/hazae41/paimon",
   "repository": "github:hazae41/paimon",
   "author": "hazae41",
