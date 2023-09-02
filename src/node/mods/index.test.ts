@@ -46,7 +46,7 @@ test("RSA", async () => {
   assertIdentityToPkcs1(identity)
   assertIdentityToPublicKey(identity)
 
-  const signature = keypair.sign_pkcs1v15_raw(hello).copy()
+  const signature = keypair.sign_pkcs1v15_unprefixed(hello).copy()
 
-  assert(identity.verify_pkcs1v15_raw(hello, signature), `signature should be verified`)
+  assert(identity.verify_pkcs1v15_unprefixed(hello, signature), `signature should be verified`)
 })

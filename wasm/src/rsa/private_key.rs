@@ -73,10 +73,10 @@ impl RsaPrivateKey {
     }
 
     #[wasm_bindgen]
-    pub fn sign_pkcs1v15_raw(&self, input: &[u8]) -> Result<Vec<u8>, JsError> {
+    pub fn sign_pkcs1v15_unprefixed(&self, input: &[u8]) -> Result<Vec<u8>, JsError> {
         use rsa::Pkcs1v15Sign;
 
-        let routput = self.inner.sign(Pkcs1v15Sign::new_raw(), input);
+        let routput = self.inner.sign(Pkcs1v15Sign::new_unprefixed(), input);
         let output = routput.map_err(|_| JsError::new("RsaPrivateKey::sign"))?;
 
         Ok(output)

@@ -54,12 +54,11 @@ impl RsaPublicKey {
     }
 
     #[wasm_bindgen]
-    pub fn verify_pkcs1v15_raw(&self, input: &[u8], signature: &[u8]) -> bool {
+    pub fn verify_pkcs1v15_unprefixed(&self, input: &[u8], signature: &[u8]) -> bool {
         use rsa::Pkcs1v15Sign;
-        use rsa::PublicKey;
 
         self.inner
-            .verify(Pkcs1v15Sign::new_raw(), input, signature)
+            .verify(Pkcs1v15Sign::new_unprefixed(), input, signature)
             .is_ok()
     }
 }

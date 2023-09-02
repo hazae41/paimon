@@ -222,12 +222,12 @@ export class RsaPrivateKey {
     * @param {Uint8Array} input
     * @returns {Slice}
     */
-    sign_pkcs1v15_raw(input) {
+    sign_pkcs1v15_unprefixed(input) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
             const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
             const len0 = WASM_VECTOR_LEN;
-            wasm.rsaprivatekey_sign_pkcs1v15_raw(retptr, this.__wbg_ptr, ptr0, len0);
+            wasm.rsaprivatekey_sign_pkcs1v15_unprefixed(retptr, this.__wbg_ptr, ptr0, len0);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -364,12 +364,12 @@ export class RsaPublicKey {
     * @param {Uint8Array} signature
     * @returns {boolean}
     */
-    verify_pkcs1v15_raw(input, signature) {
+    verify_pkcs1v15_unprefixed(input, signature) {
         const ptr0 = passArray8ToWasm0(input, wasm.__wbindgen_malloc);
         const len0 = WASM_VECTOR_LEN;
         const ptr1 = passArray8ToWasm0(signature, wasm.__wbindgen_malloc);
         const len1 = WASM_VECTOR_LEN;
-        const ret = wasm.rsapublickey_verify_pkcs1v15_raw(this.__wbg_ptr, ptr0, len0, ptr1, len1);
+        const ret = wasm.rsapublickey_verify_pkcs1v15_unprefixed(this.__wbg_ptr, ptr0, len0, ptr1, len1);
         return ret !== 0;
     }
 }

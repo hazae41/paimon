@@ -39,7 +39,7 @@ export class RsaPrivateKey {
 * @param {Uint8Array} input
 * @returns {Slice}
 */
-  sign_pkcs1v15_raw(input: Uint8Array): Slice;
+  sign_pkcs1v15_unprefixed(input: Uint8Array): Slice;
 }
 /**
 */
@@ -73,7 +73,7 @@ export class RsaPublicKey {
 * @param {Uint8Array} signature
 * @returns {boolean}
 */
-  verify_pkcs1v15_raw(input: Uint8Array, signature: Uint8Array): boolean;
+  verify_pkcs1v15_unprefixed(input: Uint8Array, signature: Uint8Array): boolean;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -87,13 +87,13 @@ export interface InitOutput {
   readonly rsaprivatekey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_pkcs8_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_public_key: (a: number) => number;
-  readonly rsaprivatekey_sign_pkcs1v15_raw: (a: number, b: number, c: number, d: number) => void;
+  readonly rsaprivatekey_sign_pkcs1v15_unprefixed: (a: number, b: number, c: number, d: number) => void;
   readonly __wbg_rsapublickey_free: (a: number) => void;
   readonly rsapublickey_from_pkcs1_der: (a: number, b: number, c: number) => void;
   readonly rsapublickey_from_public_key_der: (a: number, b: number, c: number) => void;
   readonly rsapublickey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsapublickey_to_public_key_der: (a: number, b: number) => void;
-  readonly rsapublickey_verify_pkcs1v15_raw: (a: number, b: number, c: number, d: number, e: number) => number;
+  readonly rsapublickey_verify_pkcs1v15_unprefixed: (a: number, b: number, c: number, d: number, e: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
