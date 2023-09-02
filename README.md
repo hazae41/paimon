@@ -14,6 +14,12 @@ npm i @hazae41/paimon
 [**Node Package 📦**](https://www.npmjs.com/package/@hazae41/paimon) • [**Deno Module 🦖**](https://deno.land/x/paimon) • [**Next.js CodeSandbox 🪣**](https://codesandbox.io/p/github/hazae41/paimon-example-next)
 
 ## Algorithms
+- RSA from RustCrypto (rsa)
+
+## Features
+- Reproducible building
+- Pre-bundled and streamed
+- Zero-copy memory slices
 
 ## Usage
 
