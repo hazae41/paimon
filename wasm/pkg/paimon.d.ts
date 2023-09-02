@@ -84,10 +84,10 @@ export interface InitOutput {
   readonly rsapublickey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsapublickey_to_public_key_der: (a: number, b: number) => void;
   readonly rsapublickey_verify_pkcs1v15_raw: (a: number, b: number, c: number, d: number, e: number) => number;
+  readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
-  readonly __wbindgen_exn_store: (a: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
@@ -113,10 +113,35 @@ export function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Pr
 
 export class Slice {
 
+  readonly ptr: number
+
+  readonly len: number
+
   constructor(ptr: number, len: number);
 
+  /**
+   * Get the bytes in memory
+   **/
   get bytes(): Uint8Array
 
+  /**
+   * Free the bytes
+   **/
   free(): void
+
+  /**
+   * Copy the bytes and free them
+   **/
+  copy(): Uint8Array
+
+  /**
+   * Free the bytes
+   **/
+  [Symbol.dispose](): void
+
+  /**
+   * Free the bytes
+   **/
+  dispose(): void
 
 }
