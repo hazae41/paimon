@@ -96,7 +96,16 @@ export class RsaPrivateKey {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_rsaprivatekey_free(ptr);
     }
@@ -253,7 +262,16 @@ export class RsaPublicKey {
         return ptr;
     }
 
-    free() {
+  
+  [Symbol.dispose]() {
+    this.free()
+  }
+
+  dispose() {
+    this.free()
+  }
+
+  free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_rsapublickey_free(ptr);
     }

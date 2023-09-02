@@ -3,6 +3,11 @@
 /**
 */
 export class RsaPrivateKey {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 * @param {number} length
@@ -39,6 +44,11 @@ export class RsaPrivateKey {
 /**
 */
 export class RsaPublicKey {
+
+  [Symbol.dispose](): void
+
+  dispose(): void
+
   free(): void;
 /**
 * @param {Uint8Array} input
