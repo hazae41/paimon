@@ -101,10 +101,6 @@ export class RsaPrivateKey {
     this.free()
   }
 
-  dispose() {
-    this.free()
-  }
-
   free() {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_rsaprivatekey_free(ptr);
@@ -264,10 +260,6 @@ export class RsaPublicKey {
 
   
   [Symbol.dispose]() {
-    this.free()
-  }
-
-  dispose() {
     this.free()
   }
 
@@ -624,13 +616,6 @@ export class Slice {
    * @returns {void}
    **/
   [Symbol.dispose]() {
-    this.free()
-  }
-
-  /**
-   * @returns {void}
-   **/
-  dispose() {
     this.free()
   }
 
