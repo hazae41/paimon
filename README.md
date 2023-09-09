@@ -37,7 +37,7 @@ const identity = keypair.to_public_key()
 const bytes = new TextEncoder().encode("hello world")
 
 // Sign and verify
-const proof = keypair.sign_pkcs1v15_raw(bytes).copy()
+const proof = keypair.sign_pkcs1v15_raw(bytes).copyAndDispose()
 const verified = identity.verify_pkcs1v15_raw(bytes, proof)
 ```
 
