@@ -1,5 +1,5 @@
 
-import { Ok } from "@hazae41/result"
+import { Copied } from "@hazae41/box"
 
 let wasm;
 
@@ -70,9 +70,16 @@ function getInt32Memory0() {
 let WASM_VECTOR_LEN = 0;
 
 function passArray8ToWasm0(arg, malloc) {
-    const ptr = malloc(arg.length * 1, 1) >>> 0;
-    getUint8Memory0().set(arg, ptr / 1);
-    WASM_VECTOR_LEN = arg.length;
+    if (getUint8Memory0().buffer === arg.inner.bytes.buffer) {
+      const bytes = arg.unwrap().bytes
+      WASM_VECTOR_LEN = bytes.byteLength;
+      return bytes.byteOffset
+    }
+
+    const bytes = arg.get().bytes
+    const ptr = malloc(bytes.length * 1, 1) >>> 0;
+    getUint8Memory0().set(bytes, ptr / 1);
+    WASM_VECTOR_LEN = bytes.length;
     return ptr;
 }
 
@@ -88,6 +95,7 @@ export class RsaPrivateKey {
         ptr = ptr >>> 0;
         const obj = Object.create(RsaPrivateKey.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -100,11 +108,19 @@ export class RsaPrivateKey {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_rsaprivatekey_free(ptr);
     }
@@ -127,7 +143,7 @@ export class RsaPrivateKey {
         }
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     * @returns {RsaPrivateKey}
     */
     static from_pkcs1_der(input) {
@@ -148,7 +164,7 @@ export class RsaPrivateKey {
         }
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     * @returns {RsaPrivateKey}
     */
     static from_pkcs8_der(input) {
@@ -218,7 +234,7 @@ export class RsaPrivateKey {
         return RsaPublicKey.__wrap(ret);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     * @returns {Slice}
     */
     sign_pkcs1v15_unprefixed(input) {
@@ -250,6 +266,7 @@ export class RsaPublicKey {
         ptr = ptr >>> 0;
         const obj = Object.create(RsaPublicKey.prototype);
         obj.__wbg_ptr = ptr;
+        obj.__wbg_freed = false;
 
         return obj;
     }
@@ -262,16 +279,24 @@ export class RsaPublicKey {
     }
 
   
-  [Symbol.dispose]() {
-    this.free()
-  }
+    get freed() {
+        return this.__wbg_freed
+    }
 
-  free() {
+    [Symbol.dispose]() {
+        this.free()
+    }
+
+    free() {
+        if (this.__wbg_freed)
+            return
+        this.__wbg_freed = true
+
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_rsapublickey_free(ptr);
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     * @returns {RsaPublicKey}
     */
     static from_pkcs1_der(input) {
@@ -292,7 +317,7 @@ export class RsaPublicKey {
         }
     }
     /**
-    * @param {Uint8Array} input
+    * @param {Box<Copiable>} input
     * @returns {RsaPublicKey}
     */
     static from_public_key_der(input) {
@@ -355,8 +380,8 @@ export class RsaPublicKey {
         }
     }
     /**
-    * @param {Uint8Array} input
-    * @param {Uint8Array} signature
+    * @param {Box<Copiable>} input
+    * @param {Box<Copiable>} signature
     * @returns {boolean}
     */
     verify_pkcs1v15_unprefixed(input, signature) {
@@ -582,6 +607,8 @@ export default __wbg_init;
 
 export class Slice {
 
+  #freed = false
+
   /**
    * @param {number} ptr 
    * @param {number} len 
@@ -607,35 +634,27 @@ export class Slice {
     return getUint8Memory0().subarray(this.start, this.end)
   }
 
+  get freed() {
+    return this.#freed
+  }
+
   /**
    * @returns {void}
    **/
   free() {
+    if (this.#freed)
+      return
+    this.#freed = true
     wasm.__wbindgen_free(this.ptr, this.len * 1);
   }
 
   /**
-   * @returns {Uint8Array}
+   * @returns {Copied}
    **/
   copyAndDispose() {
     const bytes = this.bytes.slice()
     this.free()
-    return bytes
-  }
-
-  /**
-   * @returns {Result<number,never>}
-   */
-  trySize() {
-    return new Ok(this.len)
-  }
-
-  /**
-   * @param {Cursor} cursor 
-   * @returns {Result<void, CursorWriteError>}
-   */
-  tryWrite(cursor) {
-    return cursor.tryWrite(this.bytes)
+    return new Copied(bytes)
   }
 
 }

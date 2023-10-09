@@ -1,3 +1,4 @@
+import { Box, Copied } from "@hazae41/box";
 import { assert, test } from "@hazae41/phobos";
 import { RsaPrivateKey, RsaPublicKey, initBundledOnce } from "./index.js";
 
@@ -10,26 +11,26 @@ function equals(a: Uint8Array, b: Uint8Array) {
 
 function assertKeypairToPkcs1(keypair: RsaPrivateKey) {
   const der = keypair.to_pkcs1_der().copyAndDispose()
-  const der2 = RsaPrivateKey.from_pkcs1_der(der).to_pkcs1_der().copyAndDispose()
-  assert(equals(der, der2), `keypair.to_pkcs1_der serialization`)
+  const der2 = RsaPrivateKey.from_pkcs1_der(new Box(der)).to_pkcs1_der().copyAndDispose()
+  assert(equals(der.bytes, der2.bytes), `keypair.to_pkcs1_der serialization`)
 }
 
 function assertKeypairToPkcs8(keypair: RsaPrivateKey) {
   const der = keypair.to_pkcs8_der().copyAndDispose()
-  const der2 = RsaPrivateKey.from_pkcs8_der(der).to_pkcs8_der().copyAndDispose()
-  assert(equals(der, der2), `keypair.to_pkcs8_der serialization`)
+  const der2 = RsaPrivateKey.from_pkcs8_der(new Box(der)).to_pkcs8_der().copyAndDispose()
+  assert(equals(der.bytes, der2.bytes), `keypair.to_pkcs8_der serialization`)
 }
 
 function assertIdentityToPkcs1(identity: RsaPublicKey) {
   const der = identity.to_pkcs1_der().copyAndDispose()
-  const der2 = RsaPublicKey.from_pkcs1_der(der).to_pkcs1_der().copyAndDispose()
-  assert(equals(der, der2), `identity.to_pkcs1_der serialization`)
+  const der2 = RsaPublicKey.from_pkcs1_der(new Box(der)).to_pkcs1_der().copyAndDispose()
+  assert(equals(der.bytes, der2.bytes), `identity.to_pkcs1_der serialization`)
 }
 
 function assertIdentityToPublicKey(identity: RsaPublicKey) {
   const der = identity.to_public_key_der().copyAndDispose()
-  const der2 = RsaPublicKey.from_public_key_der(der).to_public_key_der().copyAndDispose()
-  assert(equals(der, der2), `identity.to_public_key_der serialization`)
+  const der2 = RsaPublicKey.from_public_key_der(new Box(der)).to_public_key_der().copyAndDispose()
+  assert(equals(der.bytes, der2.bytes), `identity.to_public_key_der serialization`)
 }
 
 test("RSA", async () => {
@@ -46,7 +47,7 @@ test("RSA", async () => {
   assertIdentityToPkcs1(identity)
   assertIdentityToPublicKey(identity)
 
-  const signature = keypair.sign_pkcs1v15_unprefixed(hello).copyAndDispose()
+  const signature = keypair.sign_pkcs1v15_unprefixed(new Box(new Copied(hello))).copyAndDispose()
 
-  assert(identity.verify_pkcs1v15_unprefixed(hello, signature), `signature should be verified`)
+  assert(identity.verify_pkcs1v15_unprefixed(new Box(new Copied(hello)), new Box(signature)), `signature should be verified`)
 })

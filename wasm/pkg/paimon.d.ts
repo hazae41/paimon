@@ -1,12 +1,13 @@
 
-import type { Result } from "@hazae41/result"
-import type { Cursor, CursorWriteError } from "@hazae41/cursor"
+import type { Box, Copiable, Copied } from "@hazae41/box"
 
 /* tslint:disable */
 /* eslint-disable */
 /**
 */
 export class RsaPrivateKey {
+
+  get freed(): boolean
 
   [Symbol.dispose](): void
 
@@ -19,12 +20,12 @@ export class RsaPrivateKey {
 * @param {Uint8Array} input
 * @returns {RsaPrivateKey}
 */
-  static from_pkcs1_der(input: Uint8Array): RsaPrivateKey;
+  static from_pkcs1_der(input: Box<Copiable>): RsaPrivateKey;
 /**
 * @param {Uint8Array} input
 * @returns {RsaPrivateKey}
 */
-  static from_pkcs8_der(input: Uint8Array): RsaPrivateKey;
+  static from_pkcs8_der(input: Box<Copiable>): RsaPrivateKey;
 /**
 * @returns {Slice}
 */
@@ -41,11 +42,13 @@ export class RsaPrivateKey {
 * @param {Uint8Array} input
 * @returns {Slice}
 */
-  sign_pkcs1v15_unprefixed(input: Uint8Array): Slice;
+  sign_pkcs1v15_unprefixed(input: Box<Copiable>): Slice;
 }
 /**
 */
 export class RsaPublicKey {
+
+  get freed(): boolean
 
   [Symbol.dispose](): void
 
@@ -54,12 +57,12 @@ export class RsaPublicKey {
 * @param {Uint8Array} input
 * @returns {RsaPublicKey}
 */
-  static from_pkcs1_der(input: Uint8Array): RsaPublicKey;
+  static from_pkcs1_der(input: Box<Copiable>): RsaPublicKey;
 /**
 * @param {Uint8Array} input
 * @returns {RsaPublicKey}
 */
-  static from_public_key_der(input: Uint8Array): RsaPublicKey;
+  static from_public_key_der(input: Box<Copiable>): RsaPublicKey;
 /**
 * @returns {Slice}
 */
@@ -73,7 +76,7 @@ export class RsaPublicKey {
 * @param {Uint8Array} signature
 * @returns {boolean}
 */
-  verify_pkcs1v15_unprefixed(input: Uint8Array, signature: Uint8Array): boolean;
+  verify_pkcs1v15_unprefixed(input: Box<Copiable>, signature: Box<Copiable>): boolean;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -141,17 +144,18 @@ export class Slice {
   get bytes(): Uint8Array
 
   /**
-   * Free the bytes
+   * Is the memory freed?
+   **/
+  get freed(): boolean
+
+  /**
+   * Free the bytes (do nothing if already freed)
    **/
   free(): void
 
   /**
    * Copy the bytes and free them
    **/
-  copyAndDispose(): Uint8Array
-
-  trySize(): Result<number, never>
-
-  tryWrite(cursor: Cursor): Result<void, CursorWriteError>
+  copyAndDispose(): Copied
 
 }
