@@ -1,106 +1,131 @@
-
-import type { Box, Copiable, Copied } from "@hazae41/box"
-
 /* tslint:disable */
 /* eslint-disable */
 /**
 */
-export class RsaPrivateKey {
-
-  get freed(): boolean
-
+export class Memory {
   [Symbol.dispose](): void
+  free(): void;
+/**
+* @param {Uint8Array} inner
+*/
+  constructor(inner: Uint8Array);
+/**
+* @returns {number}
+*/
+  ptr(): number;
+/**
+* @returns {number}
+*/
+  len(): number;
 
+  /**
+   * Free on next tick
+   **/
+  freeNextTick(): Memory
+
+  /**
+   * Get the bytes in memory
+   **/
+  get bytes(): Uint8Array
+
+  /**
+   * Copy the bytes and free them
+   **/
+  copyAndDispose(): Uint8Array
+}
+/**
+*/
+export class RsaPrivateKey {
+  [Symbol.dispose](): void
   free(): void;
 /**
 * @param {number} length
 */
   constructor(length: number);
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 * @returns {RsaPrivateKey}
 */
-  static from_pkcs1_der(input: Box<Copiable>): RsaPrivateKey;
+  static from_pkcs1_der(input: Memory): RsaPrivateKey;
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 * @returns {RsaPrivateKey}
 */
-  static from_pkcs8_der(input: Box<Copiable>): RsaPrivateKey;
+  static from_pkcs8_der(input: Memory): RsaPrivateKey;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  to_pkcs1_der(): Slice;
+  to_pkcs1_der(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  to_pkcs8_der(): Slice;
+  to_pkcs8_der(): Memory;
 /**
 * @returns {RsaPublicKey}
 */
   to_public_key(): RsaPublicKey;
 /**
-* @param {Uint8Array} input
-* @returns {Slice}
+* @param {Memory} input
+* @returns {Memory}
 */
-  sign_pkcs1v15_unprefixed(input: Box<Copiable>): Slice;
+  sign_pkcs1v15_unprefixed(input: Memory): Memory;
 }
 /**
 */
 export class RsaPublicKey {
-
-  get freed(): boolean
-
   [Symbol.dispose](): void
-
   free(): void;
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 * @returns {RsaPublicKey}
 */
-  static from_pkcs1_der(input: Box<Copiable>): RsaPublicKey;
+  static from_pkcs1_der(input: Memory): RsaPublicKey;
 /**
-* @param {Uint8Array} input
+* @param {Memory} input
 * @returns {RsaPublicKey}
 */
-  static from_public_key_der(input: Box<Copiable>): RsaPublicKey;
+  static from_public_key_der(input: Memory): RsaPublicKey;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  to_pkcs1_der(): Slice;
+  to_pkcs1_der(): Memory;
 /**
-* @returns {Slice}
+* @returns {Memory}
 */
-  to_public_key_der(): Slice;
+  to_public_key_der(): Memory;
 /**
-* @param {Uint8Array} input
-* @param {Uint8Array} signature
+* @param {Memory} input
+* @param {Memory} signature
 * @returns {boolean}
 */
-  verify_pkcs1v15_unprefixed(input: Box<Copiable>, signature: Box<Copiable>): boolean;
+  verify_pkcs1v15_unprefixed(input: Memory, signature: Memory): boolean;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_memory_free: (a: number) => void;
+  readonly memory_new: (a: number, b: number) => number;
+  readonly memory_ptr: (a: number) => number;
+  readonly memory_len: (a: number) => number;
   readonly __wbg_rsaprivatekey_free: (a: number) => void;
   readonly rsaprivatekey_new: (a: number, b: number) => void;
-  readonly rsaprivatekey_from_pkcs1_der: (a: number, b: number, c: number) => void;
-  readonly rsaprivatekey_from_pkcs8_der: (a: number, b: number, c: number) => void;
+  readonly rsaprivatekey_from_pkcs1_der: (a: number, b: number) => void;
+  readonly rsaprivatekey_from_pkcs8_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_pkcs8_der: (a: number, b: number) => void;
   readonly rsaprivatekey_to_public_key: (a: number) => number;
-  readonly rsaprivatekey_sign_pkcs1v15_unprefixed: (a: number, b: number, c: number, d: number) => void;
+  readonly rsaprivatekey_sign_pkcs1v15_unprefixed: (a: number, b: number, c: number) => void;
   readonly __wbg_rsapublickey_free: (a: number) => void;
-  readonly rsapublickey_from_pkcs1_der: (a: number, b: number, c: number) => void;
-  readonly rsapublickey_from_public_key_der: (a: number, b: number, c: number) => void;
+  readonly rsapublickey_from_pkcs1_der: (a: number, b: number) => void;
+  readonly rsapublickey_from_public_key_der: (a: number, b: number) => void;
   readonly rsapublickey_to_pkcs1_der: (a: number, b: number) => void;
   readonly rsapublickey_to_public_key_der: (a: number, b: number) => void;
-  readonly rsapublickey_verify_pkcs1v15_unprefixed: (a: number, b: number, c: number, d: number, e: number) => number;
+  readonly rsapublickey_verify_pkcs1v15_unprefixed: (a: number, b: number, c: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
-  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
@@ -123,39 +148,3 @@ export function initSync(module: SyncInitInput): InitOutput;
 * @returns {Promise<InitOutput>}
 */
 export function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
-
-
-export class Slice {
-
-  readonly ptr: number
-
-  readonly len: number
-
-  constructor(ptr: number, len: number);
-
-  /**
-   * Free the bytes
-   **/
-  [Symbol.dispose](): void
-
-  /**
-   * Get the bytes in memory
-   **/
-  get bytes(): Uint8Array
-
-  /**
-   * Is the memory freed?
-   **/
-  get freed(): boolean
-
-  /**
-   * Free the bytes (do nothing if already freed)
-   **/
-  free(): void
-
-  /**
-   * Copy the bytes and free them
-   **/
-  copyAndDispose(): Copied
-
-}
